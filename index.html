@@ -38,16 +38,20 @@
       gap: 8px;
     }
 
+    .time-input {
+      flex: 1;
+    }
+
+    .period {
+      width: 80px;
+    }
+
     input, select {
       padding: 12px;
       font-size: 16px;
       border-radius: 8px;
       border: 1px solid #ccc;
       width: 100%;
-    }
-
-    .spacer {
-      width: 80px;
     }
 
     .result {
@@ -68,8 +72,13 @@
 
     <label>Start Time</label>
     <div class="time-row">
-      <input id="startTime" placeholder="730" inputmode="numeric" />
-      <select id="startPeriod">
+      <input
+        id="startTime"
+        class="time-input"
+        placeholder="9:30"
+        inputmode="numeric"
+      />
+      <select id="startPeriod" class="period">
         <option>AM</option>
         <option>PM</option>
       </select>
@@ -77,18 +86,26 @@
 
     <label>End Time</label>
     <div class="time-row">
-      <input id="endTime" placeholder="445" inputmode="numeric" />
-      <select id="endPeriod">
+      <input
+        id="endTime"
+        class="time-input"
+        placeholder="6:30"
+        inputmode="numeric"
+      />
+      <select id="endPeriod" class="period">
         <option>PM</option>
         <option>AM</option>
       </select>
     </div>
 
     <label>Break Time (hours)</label>
-    <div class="time-row">
-      <input id="breakTime" type="number" step="0.25" value="1" />
-      <div class="spacer"></div>
-    </div>
+    <input
+      id="breakTime"
+      class="time-input"
+      type="number"
+      step="0.25"
+      value="1"
+    />
 
     <div class="result">
       Total Hours Worked:
@@ -101,7 +118,7 @@
       let digits = input.value.replace(/\D/g, "");
 
       if (digits.length === 3) {
-        // 7:3 → 7:30
+        // 9:3 → 9:30
         digits = digits[0] + "30";
       }
 
@@ -122,7 +139,6 @@
 
       if (
         h < 1 || h > 12 ||
-        m < 0 || m > 59 ||
         ![0, 15, 30, 45].includes(m)
       ) {
         return null;
