@@ -46,14 +46,9 @@
       width: 80px;
     }
 
-    .break-row {
-      display: flex;
-      gap: 8px;
-    }
-
-    .break-wrapper {
-      flex: 1;
-      padding-right: 80px; /* reserves AM/PM space */
+    /* 🔑 THIS IS THE IMPORTANT PART */
+    .break-input {
+      width: calc(100% + 88px); /* 80px AM/PM + 8px gap */
     }
 
     input, select {
@@ -61,7 +56,6 @@
       font-size: 16px;
       border-radius: 8px;
       border: 1px solid #ccc;
-      width: 100%;
       box-sizing: border-box;
     }
 
@@ -100,10 +94,14 @@
     </div>
 
     <label>Break Time (hours)</label>
-    <div class="break-row">
-      <div class="break-wrapper">
-        <input id="breakTime" type="number" step="0.25" value="1" />
-      </div>
+    <div class="time-row">
+      <input
+        id="breakTime"
+        class="break-input"
+        type="number"
+        step="0.25"
+        value="1"
+      />
     </div>
 
     <div class="result">
@@ -148,7 +146,7 @@
     function calculate() {
       const start = parseTime(startTime.value, startPeriod.value);
       const end = parseTime(endTime.value, endPeriod.value);
-      const breakTime = parseFloat(breakTime.value);
+      const breakTime = parseFloat(breakTimeInput.value);
 
       if (start === null || end === null || isNaN(breakTime)) {
         output.textContent = "—";
@@ -165,7 +163,7 @@
     const endTime = document.getElementById("endTime");
     const startPeriod = document.getElementById("startPeriod");
     const endPeriod = document.getElementById("endPeriod");
-    const breakTime = document.getElementById("breakTime");
+    const breakTimeInput = document.getElementById("breakTime");
     const output = document.getElementById("output");
 
     startTime.addEventListener("input", () => {
