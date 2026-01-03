@@ -34,21 +34,13 @@
     }
 
     .time-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 80px;
       gap: 8px;
     }
 
-    .time-input {
-      flex: 1;
-    }
-
-    .period,
-    .ghost {
-      width: 80px;
-    }
-
-    .ghost {
-      visibility: hidden;
+    .full-width {
+      grid-column: 1 / -1;
     }
 
     input, select {
@@ -77,8 +69,8 @@
 
     <label>Start Time</label>
     <div class="time-row">
-      <input id="startTime" class="time-input" placeholder="9:30" inputmode="numeric" />
-      <select id="startPeriod" class="period">
+      <input id="startTime" placeholder="9:30" inputmode="numeric" />
+      <select id="startPeriod">
         <option>AM</option>
         <option>PM</option>
       </select>
@@ -86,8 +78,8 @@
 
     <label>End Time</label>
     <div class="time-row">
-      <input id="endTime" class="time-input" placeholder="6:30" inputmode="numeric" />
-      <select id="endPeriod" class="period">
+      <input id="endTime" placeholder="6:30" inputmode="numeric" />
+      <select id="endPeriod">
         <option>PM</option>
         <option>AM</option>
       </select>
@@ -95,8 +87,13 @@
 
     <label>Break Time (hours)</label>
     <div class="time-row">
-      <input id="breakTime" class="time-input" type="number" step="0.25" value="1" />
-      <div class="ghost"></div>
+      <input
+        id="breakTime"
+        class="full-width"
+        type="number"
+        step="0.25"
+        value="1"
+      />
     </div>
 
     <div class="result">
