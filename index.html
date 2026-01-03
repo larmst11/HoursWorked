@@ -8,7 +8,7 @@
     /* ---- BASE STYLING ---- */
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #1a1a1a; /* page background */
+      background: #1a1a1a;
       padding: 20px;
       color: #eee;
     }
@@ -16,7 +16,7 @@
     .card {
       max-width: 420px;
       margin: auto;
-      background: #333333; /* dark grey card */
+      background: #333333; 
       padding: 24px;
       border-radius: 16px;
       box-shadow: 0 12px 30px rgba(0,0,0,0.5);
@@ -45,17 +45,19 @@
 
     .time-input {
       flex: 1;
+      color: #fff; /* white input text */
+      background: #444;
     }
 
+    /* Slightly move native dropdown arrows left */
     .period {
       width: 80px;
-      padding-right: 24px; /* push dropdown arrow left from right edge */
-      background: #444 url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L5 6L10 0H0Z' fill='%23eee'/%3E%3C/svg%3E") no-repeat right 8px center;
-      background-size: 10px 6px;
-      color: #eee;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
+      padding-right: 12px; 
+      background-color: #444;
+      color: #fff; 
+      -webkit-appearance: auto;
+      -moz-appearance: auto;
+      appearance: auto;
     }
 
     .break-row {
@@ -64,7 +66,9 @@
 
     .break-input {
       flex: 1;
-      margin-right: 88px; /* align visually with AM/PM */
+      margin-right: 88px; 
+      color: #fff; /* white text for break input */
+      background: #444;
     }
 
     /* ---- INPUT STYLING ---- */
@@ -76,35 +80,37 @@
       width: 100%;
       box-sizing: border-box;
       font-weight: 500;
-      background: #444;
-      color: #eee;
       transition: border-color 0.2s ease, background 0.2s ease;
     }
 
     input::placeholder {
-      color: #aaa; /* lighter placeholder */
+      color: #ccc; /* lighter placeholder to distinguish */
     }
 
     input:focus, select:focus {
-      border-color: #f68b43; /* single orange border */
+      border-color: #f68b43; 
       outline: none;
-      box-shadow: none; /* remove double border */
-      background: #555;
+      box-shadow: none;
+    }
+
+    select {
+      background: #444;
+      color: #fff;
     }
 
     /* ---- RESULT BOX ---- */
     .result {
       margin-top: 24px;
-      background: #222; /* slightly darker than card */
+      background: #222; 
       padding: 16px;
       border-radius: 12px;
       font-size: 18px;
       font-weight: 600;
       text-align: center;
-      color: #eee; /* all text white/light grey */
+      color: #eee; 
     }
 
-    /* make the number appear on a separate line and centered */
+    /* make the number appear on a separate line */
     .result #output {
       display: block;
       font-size: 32px;
