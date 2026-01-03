@@ -34,13 +34,26 @@
     }
 
     .time-row {
-      display: grid;
-      grid-template-columns: 1fr 80px;
+      display: flex;
       gap: 8px;
     }
 
-    .full-width {
-      grid-column: 1 / -1;
+    .time-input {
+      flex: 1;
+    }
+
+    .period {
+      width: 80px;
+    }
+
+    .break-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .break-wrapper {
+      flex: 1;
+      padding-right: 80px; /* reserves AM/PM space */
     }
 
     input, select {
@@ -49,6 +62,7 @@
       border-radius: 8px;
       border: 1px solid #ccc;
       width: 100%;
+      box-sizing: border-box;
     }
 
     .result {
@@ -69,8 +83,8 @@
 
     <label>Start Time</label>
     <div class="time-row">
-      <input id="startTime" placeholder="9:30" inputmode="numeric" />
-      <select id="startPeriod">
+      <input id="startTime" class="time-input" placeholder="9:30" inputmode="numeric" />
+      <select id="startPeriod" class="period">
         <option>AM</option>
         <option>PM</option>
       </select>
@@ -78,22 +92,18 @@
 
     <label>End Time</label>
     <div class="time-row">
-      <input id="endTime" placeholder="6:30" inputmode="numeric" />
-      <select id="endPeriod">
+      <input id="endTime" class="time-input" placeholder="6:30" inputmode="numeric" />
+      <select id="endPeriod" class="period">
         <option>PM</option>
         <option>AM</option>
       </select>
     </div>
 
     <label>Break Time (hours)</label>
-    <div class="time-row">
-      <input
-        id="breakTime"
-        class="full-width"
-        type="number"
-        step="0.25"
-        value="1"
-      />
+    <div class="break-row">
+      <div class="break-wrapper">
+        <input id="breakTime" type="number" step="0.25" value="1" />
+      </div>
     </div>
 
     <div class="result">
@@ -138,7 +148,7 @@
     function calculate() {
       const start = parseTime(startTime.value, startPeriod.value);
       const end = parseTime(endTime.value, endPeriod.value);
-      const breakTime = parseFloat(breakTimeInput.value);
+      const breakTime = parseFloat(breakTime.value);
 
       if (start === null || end === null || isNaN(breakTime)) {
         output.textContent = "—";
@@ -155,7 +165,7 @@
     const endTime = document.getElementById("endTime");
     const startPeriod = document.getElementById("startPeriod");
     const endPeriod = document.getElementById("endPeriod");
-    const breakTimeInput = document.getElementById("breakTime");
+    const breakTime = document.getElementById("breakTime");
     const output = document.getElementById("output");
 
     startTime.addEventListener("input", () => {
