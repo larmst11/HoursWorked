@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hours Worked Calculator</title>
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f5f5;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .calculator {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .result {
+      margin-top: 25px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="calculator">
+    <h1>Hours Worked Calculator</h1>
+
+    <label>Clock In</label>
+    <input type="time" id="startTime" step="900">
+
+    <label>Clock Out</label>
+    <input type="time" id="endTime" step="900">
+
+    <label>Break Time (hours)</label>
+    <select id="breakTime">
+      <option value="0">0</option>
+      <option value="0.25">0.25</option>
+      <option value="0.5">0.5</option>
+      <option value="0.75">0.75</option>
+      <option value="1">1</option>
+      <option value="1.25">1.25</option>
+      <option value="1.5">1.5</option>
+    </select>
+
+    <div class="result">
+      Total Hours Worked:
+      <div id="output">—</div>
+    </div>
+  </div>
+
+  <script>
+    const startInput = document.getElementById("startTime");
+    const endInput = document.getElementById("endTime");
+    const breakInput = document.getElementById("breakTime");
+    const output = document.getElementById("output");
+
+    function calculateHours() {
+      if (!startInput.value || !endInput.value) {
+        output.textContent = "—";
+        return;
+      }
+
+      const [startH, startM] = startInput.value.split(":").map(Number);
+      const [endH, endM] = endInput.value.split(":").map(Number);
+
+      let startMinutes = startH * 60 + startM;
+      let endMinutes = endH * 60 + endM;
+
+      let workedMinutes = endMinutes - startMinutes;
+
+      if (workedMinutes < 0) {
+        output.textContent = "Invalid time range";
+        return;
+      }
+
+      const breakMinutes = parseFloat(breakInput.value) * 60;
+      workedMinutes -= breakMinutes;
+
+      if (workedMinutes < 0) workedMinutes = 0;
+
+      let hours = workedMinutes / 60;
+
+      // Round to nearest 0.25
+      hours = Math.round(hours * 4) / 4;
+
+      output.textContent = hours.toFixed(2);
+    }
+
+    startInput.addEventListener("input", calculateHours);
+    endInput.addEventListener("input", calculateHours);
+    breakInput.addEventListener("change", calculateHours);
+  </script>
+</body>
+</html>
