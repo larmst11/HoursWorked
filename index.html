@@ -5,24 +5,27 @@
   <title>Hours Worked Calculator</title>
 
   <style>
+    /* ---- BASE STYLING ---- */
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f4f4f4;
+      background: #1a1a1a; /* page background */
       padding: 20px;
+      color: #eee;
     }
 
     .card {
       max-width: 420px;
       margin: auto;
-      background: white;
+      background: #333333; /* dark grey card */
       padding: 24px;
       border-radius: 16px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
     }
 
     h1 {
       font-size: 20px;
       margin-bottom: 20px;
+      color: #fff;
     }
 
     label {
@@ -31,8 +34,10 @@
       display: block;
       margin-top: 16px;
       margin-bottom: 6px;
+      color: #ddd;
     }
 
+    /* ---- FORM ROWS ---- */
     .time-row {
       display: flex;
       gap: 8px;
@@ -46,27 +51,55 @@
       width: 80px;
     }
 
-    /* 🔑 THIS IS THE IMPORTANT PART */
-    .break-input {
-      width: calc(100% + 88px); /* 80px AM/PM + 8px gap */
+    .break-row {
+      display: flex;
     }
 
+    .break-input {
+      flex: 1;
+      margin-right: 88px; /* align visually with AM/PM */
+    }
+
+    /* ---- INPUT STYLING ---- */
     input, select {
-      padding: 12px;
+      padding: 14px;
       font-size: 16px;
       border-radius: 8px;
-      border: 1px solid #ccc;
+      border: 1px solid #555;
+      width: 100%;
       box-sizing: border-box;
+      font-weight: 500;
+      background: #444;
+      color: #eee;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     }
 
+    input::placeholder {
+      color: #aaa; /* lighter placeholder */
+    }
+
+    input:focus, select:focus {
+      border-color: #f68b43;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(246,139,67,0.2);
+      background: #555;
+    }
+
+    select {
+      background: #444;
+      color: #eee;
+    }
+
+    /* ---- RESULT BOX ---- */
     .result {
       margin-top: 24px;
-      background: #f0f0f0;
+      background: #222; /* slightly darker than card for contrast */
       padding: 16px;
       border-radius: 12px;
       font-size: 18px;
       font-weight: 600;
       text-align: center;
+      color: #f68b43; /* highlight color */
     }
   </style>
 </head>
@@ -75,6 +108,7 @@
   <div class="card">
     <h1>Hours Worked Calculator</h1>
 
+    <!-- START TIME -->
     <label>Start Time</label>
     <div class="time-row">
       <input id="startTime" class="time-input" placeholder="9:30" inputmode="numeric" />
@@ -84,6 +118,7 @@
       </select>
     </div>
 
+    <!-- END TIME -->
     <label>End Time</label>
     <div class="time-row">
       <input id="endTime" class="time-input" placeholder="6:30" inputmode="numeric" />
@@ -93,8 +128,9 @@
       </select>
     </div>
 
+    <!-- BREAK TIME -->
     <label>Break Time (hours)</label>
-    <div class="time-row">
+    <div class="break-row">
       <input
         id="breakTime"
         class="break-input"
@@ -104,6 +140,7 @@
       />
     </div>
 
+    <!-- RESULT -->
     <div class="result">
       Total Hours Worked:
       <div id="output">—</div>
