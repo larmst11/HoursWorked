@@ -91,20 +91,36 @@
 
   <script>
     function formatTimeInput(input) {
-      let value = input.value.replace(/\D/g, "");
+      let digits = input.value.replace(/\D/g, "");
 
-      if (value.length >= 3) {
-        value = value.slice(0, value.length - 2) + ":" + value.slice(-2);
+      if (digits.length === 3) {
+        // 7:3 → 7:30
+        digits = digits[0] + "30";
       }
 
-      input.value = value.slice(0, 5);
+      if (digits.length >= 4) {
+        digits = digits.slice(0, 4);
+        input.value = digits.slice(0, 2) + ":" + digits.slice(2);
+      } else if (digits.length >= 2) {
+        input.value = digits[0] + ":" + digits.slice(1);
+      } else {
+        input.value = digits;
+      }
     }
 
     function parseTime(timeStr, period) {
       if (!timeStr.includes(":")) return null;
 
       let [h, m] = timeStr.split(":").map(Number);
-      if (isNaN(h) || isNaN(m)) return null;
+
+      // Invalid hour or minute ranges
+      if (
+        h < 1 || h > 12 ||
+        m < 0 || m > 59 ||
+        ![0, 15, 30, 45].includes(m)
+      ) {
+        return null;
+      }
 
       if (h === 12) h = 0;
       if (period === "PM") h += 12;
@@ -123,6 +139,7 @@
       }
 
       let worked = end - start - breakTime;
+
       if (worked < 0) worked += 24;
 
       output.textContent = worked.toFixed(2);
