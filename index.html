@@ -5,105 +5,88 @@
   <title>Hours Worked Calculator</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       background: #f4f4f4;
       padding: 20px;
-      margin: 0;
     }
 
-    .calculator {
-      background: white;
-      padding: 20px;
-      border-radius: 14px;
+    .card {
       max-width: 420px;
-      margin: 0 auto;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      margin: auto;
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
     }
 
     h1 {
       font-size: 20px;
-      margin-top: 0;
       margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .field {
-      margin-bottom: 16px;
     }
 
     label {
-      display: block;
       font-size: 13px;
       font-weight: 600;
+      display: block;
+      margin-top: 16px;
       margin-bottom: 6px;
     }
 
     .time-row {
       display: flex;
-      gap: 10px;
+      gap: 8px;
     }
 
     input, select {
-      width: 100%;
       padding: 12px;
       font-size: 16px;
       border-radius: 8px;
       border: 1px solid #ccc;
+      width: 100%;
     }
 
     .result {
       margin-top: 24px;
-      padding: 16px;
       background: #f0f0f0;
-      border-radius: 10px;
+      padding: 16px;
+      border-radius: 12px;
       font-size: 18px;
       font-weight: 600;
       text-align: center;
-    }
-
-    @media (min-width: 600px) {
-      body {
-        padding: 40px;
-      }
     }
   </style>
 </head>
 
 <body>
-  <div class="calculator">
+  <div class="card">
     <h1>Hours Worked Calculator</h1>
 
-    <div class="field">
-      <label>Start Time</label>
-      <div class="time-row">
-        <input id="startTime" placeholder="7.50" type="number" step="0.25" />
-        <select id="startPeriod">
-          <option value="AM" selected>AM</option>
-          <option value="PM">PM</option>
-        </select>
-      </div>
+    <label>Start Time</label>
+    <div class="time-row">
+      <input id="startTime" placeholder="7:30" />
+      <select id="startPeriod">
+        <option>AM</option>
+        <option>PM</option>
+      </select>
     </div>
 
-    <div class="field">
-      <label>End Time</label>
-      <div class="time-row">
-        <input id="endTime" placeholder="6.00" type="number" step="0.25" />
-        <select id="endPeriod">
-          <option value="AM">AM</option>
-          <option value="PM" selected>PM</option>
-        </select>
-      </div>
+    <label>End Time</label>
+    <div class="time-row">
+      <input id="endTime" placeholder="4:45" />
+      <select id="endPeriod">
+        <option>PM</option>
+        <option>AM</option>
+      </select>
     </div>
 
-    <div class="field">
-      <label>Break Time (hours)</label>
-      <input id="breakTime" type="number" step="0.25" value="1" />
-    </div>
+    <label>Break Time (hours)</label>
+    <input
+      id="breakTime"
+      type="number"
+      step="0.25"
+      value="1"
+    />
 
     <div class="result">
       Total Hours Worked:
@@ -112,38 +95,54 @@
   </div>
 
   <script>
-    const inputs = document.querySelectorAll("input, select");
+    function parseTime(timeStr, period) {
+      if (!timeStr.includes(":")) return null;
 
-    function to24Hour(time, period) {
-      if (period === "PM" && time < 12) return time + 12;
-      if (period === "AM" && time === 12) return 0;
-      return time;
+      const [hoursStr, minutesStr] = timeStr.split(":");
+      let hours = parseInt(hoursStr);
+      const minutes = parseInt(minutesStr);
+
+      if (isNaN(hours) || isNaN(minutes)) return null;
+
+      if (hours === 12) hours = 0;
+      if (period === "PM") hours += 12;
+
+      return hours + minutes / 60;
     }
 
-    function calculateHours() {
-      const startTime = parseFloat(document.getElementById("startTime").value);
-      const endTime = parseFloat(document.getElementById("endTime").value);
-      const breakTime = parseFloat(document.getElementById("breakTime").value) || 0;
+    function calculate() {
+      const start = parseTime(
+        startTime.value,
+        startPeriod.value
+      );
+      const end = parseTime(
+        endTime.value,
+        endPeriod.value
+      );
+      const breakTime = parseFloat(breakTimeInput.value);
 
-      const startPeriod = document.getElementById("startPeriod").value;
-      const endPeriod = document.getElementById("endPeriod").value;
-
-      if (isNaN(startTime) || isNaN(endTime)) {
-        document.getElementById("output").textContent = "—";
+      if (start === null || end === null || isNaN(breakTime)) {
+        output.textContent = "—";
         return;
       }
 
-      const start = to24Hour(startTime, startPeriod);
-      const end = to24Hour(endTime, endPeriod);
+      let worked = end - start - breakTime;
 
-      let total = end - start - breakTime;
+      if (worked < 0) worked += 24;
 
-      if (total < 0) total = 0;
-
-      document.getElementById("output").textContent = total.toFixed(2);
+      output.textContent = worked.toFixed(2);
     }
 
-    inputs.forEach(input => input.addEventListener("input", calculateHours));
+    const startTime = document.getElementById("startTime");
+    const startPeriod = document.getElementById("startPeriod");
+    const endTime = document.getElementById("endTime");
+    const endPeriod = document.getElementById("endPeriod");
+    const breakTimeInput = document.getElementById("breakTime");
+    const output = document.getElementById("output");
+
+    document.querySelectorAll("input, select").forEach(el => {
+      el.addEventListener("input", calculate);
+    });
   </script>
 </body>
 </html>
