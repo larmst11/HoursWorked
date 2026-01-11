@@ -58,10 +58,6 @@
       transition: border-color 0.2s ease;
     }
 
-    input::placeholder {
-      color: #bbb;
-    }
-
     input:focus, select:focus {
       border-color: #f68b43;
       outline: none;
@@ -106,7 +102,7 @@
 
     <label>Start Time</label>
     <div class="time-row">
-      <input id="startTime" class="time-input" placeholder="9:30" inputmode="numeric" />
+      <input id="startTime" class="time-input" inputmode="numeric" />
       <select id="startPeriod" class="period">
         <option>AM</option>
         <option>PM</option>
@@ -115,7 +111,7 @@
 
     <label>End Time</label>
     <div class="time-row">
-      <input id="endTime" class="time-input" placeholder="6:30" inputmode="numeric" />
+      <input id="endTime" class="time-input" inputmode="numeric" />
       <select id="endPeriod" class="period">
         <option>PM</option>
         <option>AM</option>
@@ -124,7 +120,13 @@
 
     <label>Break Time (hours)</label>
     <div class="break-row">
-      <input id="breakTime" class="break-input" type="number" step="0.25" value="1" />
+      <input
+        id="breakTime"
+        class="break-input"
+        type="number"
+        step="0.25"
+        value="1"
+      />
     </div>
 
     <div class="result">
